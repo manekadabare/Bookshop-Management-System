@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoicesub" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f725f650-3825-4e7f-8ef9-20deb726fa81">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="para" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     batch.`sprice` AS batch_sprice,
+     invoiceitem.`qty` AS invoiceitem_qty,
+     invoiceitem.`total` AS invoiceitem_total,
+     item.`name` AS item_name,
+     invoiceitem.`discount` AS invoiceitem_discount
+FROM
+     `batch` batch INNER JOIN `item` item ON batch.`batchid` = item.`batchid`
+     INNER JOIN `invoiceitem` invoiceitem ON item.`itemid` = invoiceitem.`itemid`
+     AND item.`batchid` = invoiceitem.`batchid`
+WHERE
+     invoiceitem.`invoiceid`= $P{para};]]>
+	</queryString>
+	<field name="batch_sprice" class="java.lang.Double"/>
+	<field name="invoiceitem_qty" class="java.lang.Double"/>
+	<field name="invoiceitem_total" class="java.lang.Double"/>
+	<field name="item_name" class="java.lang.String"/>
+	<field name="invoiceitem_discount" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="75" height="20" uuid="9244b044-d7be-49e1-bd04-e718e0166748"/>
+				<textFieldExpression><![CDATA[$F{invoiceitem_qty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="91" y="0" width="100" height="20" uuid="c38527d4-cdb0-47b7-8e58-8fe8455ce4fa"/>
+				<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="0" width="100" height="20" uuid="38f6e8bd-dcde-4694-992a-5c072178873f"/>
+				<textFieldExpression><![CDATA[$F{batch_sprice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="317" y="0" width="100" height="20" uuid="0317a367-ced2-41fa-bb55-c324884d8620"/>
+				<textFieldExpression><![CDATA[$F{invoiceitem_discount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="431" y="0" width="100" height="20" uuid="9f57817b-acee-4b18-8ea9-ce92fd6d90c8"/>
+				<textFieldExpression><![CDATA[$F{invoiceitem_total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
